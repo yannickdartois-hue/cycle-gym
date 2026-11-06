@@ -177,14 +177,14 @@ const TL_STD = [["Accueil, appel, installation",10,"inst"],["Échauffement commu
 const atelierDe = (g, idx, tour) => ((g - 1 + (idx % 2) * 3 + tour) % 6) + 1;        // idx : rang de la séance (0 = S1)
 const tourTexte = (idx, tour) => [1,2,3,4,5,6].map(g => {const a = atelierById(atelierDe(g, idx, tour));return `G${g} → ${a.n}. ${a.court}`}).join(" ; ");
 const TOUR = (idx, tour, consigne) => ({titre:`Tour ${tour + 1} · chaque groupe sur l'appli`, duree:20, cat:`Tour ${tour + 1} sur 3`,
- dispo:tourTexte(idx, tour) + `. Environ 18 min de travail, 2 min pour changer d'atelier au signal. Outil prof › Rotation des ateliers : 20 min, 3 tours, ${idx % 2 ? "cours B" : "cours A"}.`,
+ dispo:`Chaque groupe va à l'atelier indiqué dans le tableau. Environ 18 min de travail, puis 2 min pour changer d'atelier au signal. Outil prof › Rotation des ateliers : 20 min, 3 tours, ${idx % 2 ? "cours B" : "cours A"}.`,
  roles:"Dans le groupe, à chaque passage : 1 gymnaste, 1 pareur ou aide si l'élément le demande, 1 observateur qui coche la validation E dans l'appli. On tourne à chaque passage.",
- deroul:["À l'arrivée : on vérifie les tapis (collés, à leur place) avant le premier passage.","L'appli élève, onglet Apprendre : chacun ouvre la fiche de SON niveau sur cet atelier (vidéo, consignes, matériel, 2 critères).","Chacun travaille le premier niveau non validé, jamais au-dessus.","Réussi du premier coup avec les 2 critères, réception maîtrisée : l'observateur valide E dans l'appli.","Validé E : « Montrer au professeur » pour la validation P, tout de suite ou en fin de séance. Niveau ⚠️ : seulement avec le professeur sur l'atelier."].concat(consigne ? [consigne] : []),
+ deroul:["À l'arrivée : on vérifie les tapis (collés, à leur place) avant le premier passage.","L'appli élève, onglet Apprendre : chacun ouvre la fiche de SON niveau sur cet atelier (vidéo, consignes, matériel, 2 critères).","Chacun travaille le premier niveau non validé, jamais au-dessus.","Réussi du premier coup avec les 2 critères, réception maîtrisée : l'observateur valide E dans l'appli.",(idx < 2 ? "Validé E : le refaire 3 fois de suite ; pas de P avant la séance 3." : "Validé E : « Montrer au professeur » pour la validation P, tout de suite ou en fin de séance. Niveau ⚠️ : seulement avec le professeur sur l'atelier.")].concat(consigne ? [consigne] : []),
  crit:"Un passage à la fois, l'atelier libéré tout de suite, personne ne traverse la zone de travail.",
  reussite:"Chaque élève a tenté son niveau sur l'atelier et le groupe a coché ses validations E.",
  moins:"Rester au niveau en cours avec un aménagement de la fiche (plan incliné, tapis plus haut, pareur).",
- plus:"Niveau validé E : le refaire 3 fois de suite avant de demander la validation P.",
- schema:"plan"});
+ plus:idx < 2 ? "Niveau validé E : le refaire 3 fois de suite, pour être prêt quand le professeur valide les P (à partir de la séance 3)." : "Niveau validé E : le refaire 3 fois de suite avant de demander la validation P.",
+ schema:`tour:${idx},${tour}+plan`});
 const SANS_P = "Pas de validation P aujourd'hui : le professeur ne valide les P qu'à partir de la séance 3. Vos validations E restent acquises.";
 const FIN = (question, plus, sansP) => ({titre:sansP ? "Envoi et rangement" : "Validations P, envoi, rangement", duree:15, cat:"Fin de séance",
  dispo:sansP ? SANS_P + " Chaque groupe range SON atelier, toujours le même." : "Les élèves qui ont une validation E à faire passer en P viennent au professeur avec leur téléphone, les autres rangent. Chaque groupe range SON atelier, toujours le même.",
@@ -469,6 +469,11 @@ function pictosHTML(liste){
   return `<div class="pictos">${liste.split(",").map(k => {const a=atelierById(k[0]),nv=a&&a.niv.find(x=>x[0]===k[1]);if(!nv)return "";
     return `<figure>${PICTOS.has(k)?`<img src="img/pictos/a${k}.png" alt="" loading="lazy">`:""}<figcaption><b class="L L${k[1]}">${k[1]}</b> ${escG(a.court)} · ${escG(nv[1])}${nv[2]?" ⚠️":""}</figcaption></figure>`}).join("")}</div>`;
 }
+function tourHTML(idx, tour){
+  const c = [1,2,3,4,5,6].map(g => {const a = atelierById(atelierDe(g, idx, tour));
+    return `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:12px;border:2px solid ${a.coul};background:${a.coul}18"><b style="font:800 22px Archivo,Arial;min-width:42px">G${g}</b><span style="font-size:22px;color:#5b6470">→</span><span style="flex:none;width:34px;height:34px;border-radius:50%;background:${a.coul};color:#fff;display:grid;place-items:center;font:800 18px Archivo,Arial">${a.n}</span><b style="font-size:19px">${escG(a.court)}</b></div>`}).join("");
+  return `<div role="table" aria-label="Atelier de chaque groupe, tour ${tour + 1}" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin:0 0 14px">${c}</div>`;
+}
 function schema(spec){
   if(!spec) return "";
   if(spec === "plan") return svgPlan();
@@ -477,5 +482,6 @@ function schema(spec){
   if(spec.startsWith("exos:")) return exosHTML(spec.slice(5));
   if(spec.startsWith("photos:")) return photosHTML(spec.slice(7));
   if(spec.includes("+")) return spec.split("+").map(schema).join("");
+  if(spec.startsWith("tour:")) return tourHTML(...spec.slice(5).split(",").map(Number));
   return "";
 }
