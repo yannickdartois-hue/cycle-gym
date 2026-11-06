@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Gym cycle">
+<meta name="theme-color" content="#0f766e">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cycle gymnastique · outils</title>
+<link rel="stylesheet" href="eps-design.css">
+<link rel="stylesheet" href="eps-outil.css">
+<style>
+:root{--bg:#f3f5f8;--surface:#fff;--ink:#1c2128;--muted:#5b6470;--line:#dde2e8;--chip:#eef1f5;--accent:#0f766e;--accent-soft:#e2f1ef;--accent-fg:#fff;--warn:#c2410c}
+:root[data-theme="dark"]{--bg:#0d1117;--surface:#161b22;--ink:#e6edf3;--muted:#8b949e;--line:#2a313b;--chip:#21262d;--accent:#5fc2b3;--accent-soft:#12302c;--accent-fg:#0d1117;--warn:#fb923c}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 "Atkinson","Segoe UI",Roboto,Arial,sans-serif}
+header.top{max-width:1100px;margin:0 auto;padding:14px 16px 0}
+.toprow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+header.top h1{margin:0;font:800 22px/1.15 "Archivo","Arial Narrow",Arial,sans-serif;display:flex;align-items:center}
+header.top p{margin:6px 0 0;color:var(--muted);font-size:max(14px,var(--fs-min,15px))}
+.appicon{width:40px;height:40px;border-radius:9px;margin:0 10px 0 0;box-shadow:0 1px 3px rgba(0,0,0,.25);flex:none}
+.cbtn{display:inline-flex;align-items:center;min-height:44px;border:1.5px solid var(--line);background:var(--surface);color:var(--accent);border-radius:10px;padding:6px 14px;font-weight:700;text-decoration:none;font-size:15px;cursor:pointer}
+nav#nav{max-width:1100px;margin:12px auto 0;padding:0 16px 12px;display:flex;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--line)}
+nav#nav button{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:8px 12px;font:600 15px "Atkinson",Arial,sans-serif;min-height:44px;cursor:pointer}
+nav#nav button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+main{max-width:1100px;margin:0 auto;padding:16px}
+h2{font:800 28px/1.15 "Archivo","Arial Narrow",Arial,sans-serif;margin:8px 0 12px}
+h3{font:800 21px/1.2 "Archivo","Arial Narrow",Arial,sans-serif;margin:16px 0 8px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin:0 0 14px}
+.muted{color:var(--muted)}.small{font-size:max(15px,var(--fs-min,15px))}
+.seance{border-left:6px solid var(--accent)}
+.seance h3{margin-top:0}
+.obj{font-size:18px}
+.tl{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.tl span{background:var(--accent-soft);border-radius:8px;padding:4px 10px;font-size:15px}
+.tl b{font-family:"Archivo",Arial,sans-serif}
+.fiche{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:10px 0;background:var(--bg)}
+.fiche h4{margin:0 0 6px;font:800 18px "Archivo",Arial,sans-serif}
+.fiche .cat{display:inline-block;background:var(--accent);color:var(--accent-fg);border-radius:6px;padding:0 8px;font-size:14px;font-weight:700;margin-right:6px}
+.fiche ol,.fiche ul{margin:6px 0;padding-left:22px}
+.var{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}.var p{margin:0;padding:6px 8px;border-radius:8px;background:var(--chip)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+table.niv{width:100%;border-collapse:collapse;font-size:16px}
+table.niv td{border-top:1px solid var(--line);padding:6px 4px;vertical-align:middle}
+table.niv img{height:56px;width:56px;object-fit:contain;background:#fff;border-radius:8px}
+.L{display:inline-block;min-width:1.7em;border-radius:6px;padding:0 4px;font-weight:800;text-align:center;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.LA{background:#ff0000;color:#fff}.LB{background:#ec7c30;color:#000}.LC{background:#ffc000;color:#000}.LD{background:#ffff00;color:#000}.LE{background:#92d050;color:#000}.LF{background:#00af50;color:#000}
+.pictos{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.pictos figure{margin:0;background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px;text-align:center}
+.pictos img{max-width:100%;height:100px;object-fit:contain}
+.pictos figcaption{font-size:14px;color:#1c2128}
+svg{max-width:100%;height:auto;display:block}
+table.rot{border-collapse:collapse;font-size:17px}table.rot td,table.rot th{border:1px solid var(--line);padding:6px 10px;text-align:center}
+.aide{background:var(--accent-soft);border-radius:12px;padding:10px 12px}
+@media (max-width:700px){.var{grid-template-columns:1fr}h2{font-size:24px}}
+@media print{
+  @page{size:A4;margin:11mm}
+  body{background:#fff;color:#000;font-size:10pt}
+  header.top,nav,.noprint{display:none!important}
+  .card{border:0;padding:0;margin:0 0 8px}
+  .seance{border-left:0;break-before:page}.seance:first-of-type{break-before:auto}
+  .fiche{break-inside:avoid}
+}
+</style>
+<script src="eps-commun.js" defer></script>
+<script>/* Ouvert depuis l'écran de cours (bouton Outils) : on ne garde que le contenu de l'outil. */
+try{if(window.self!==window.top)document.documentElement.classList.add('outil')}catch(e){document.documentElement.classList.add('outil')}</script>
+<style>html.outil body>header.top,html.outil nav#nav{display:none!important}</style>
+<style>/* Lisibilité terrain : textes à 15 px minimum à l'écran ; tailles d'origine à l'impression. */@media print{:root{--fs-min:0px}}</style>
+<link rel="stylesheet" href="eps-charte-v1.css">
+<style>/* Charte v1 — Gymnastique : couleur de l'activité ; cycle : p=normal */
+:root{--act:#0f766e;--act-fonce:#09493f;--act-pale:#e2f1ef;--accent:#0f766e;--accent-soft:#e2f1ef;--accent-fg:#ffffff;--sport:#0f766e}
+:root[data-theme="dark"]{--accent:#5fc2b3;--accent-soft:#12302c;--accent-fg:#0d1117;--sport:#5fc2b3}
+</style>
+</head>
+<body>
+<header class="top"><div class="toprow"><h1><img class="appicon" src="icon-192.png" alt="" width="40" height="40">Cycle gymnastique · CA3 · Première</h1><a class="cbtn" href="./">‹ Écran de cours</a></div>
+<p>6 ateliers, niveaux A à F (comme l'appli élève) · 8 séances de 110 min · 6 groupes · validation E par un camarade, P par le professeur</p></header>
+<nav id="nav" aria-label="Onglets"></nav>
+<main id="main"></main>
+<script src="gym-donnees.js"></script>
+<script>
+'use strict';
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ul = L => `<ul>${L.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
+function ficheHTML(f){
+  const v = (f.moins || f.plus) ? `<div class="var">${f.moins ? `<p><b>− Plus facile</b> ${esc(f.moins)}</p>` : ""}${f.plus ? `<p><b>+ Plus difficile</b> ${esc(f.plus)}</p>` : ""}</div>` : "";
+  return `<article class="fiche"><h4><span class="cat">${esc(f.cat)}</span>${esc(f.titre)} · ${f.duree} min</h4>
+   <p class="small"><b>Organisation.</b> ${esc(f.dispo)}</p>${f.roles ? `<p class="small"><b>Rôles.</b> ${esc(f.roles)}</p>` : ""}
+   <ol>${f.deroul.map(x => `<li>${esc(x)}</li>`).join("")}</ol>
+   ${f.crit ? `<p class="small"><b>Critères.</b> ${esc(f.crit)}</p>` : ""}${f.reussite ? `<p class="small"><b>Réussi si</b> ${esc(f.reussite)}</p>` : ""}${v}
+   ${f.schema && f.schema !== "plan" && f.schema !== "vagues" ? schema(f.schema) : ""}</article>`;
+}
+const T = {
+ seances:["Séances", () => `<h2>Les 8 séances</h2><p class="muted noprint">Chaque séance : un échauffement différent, un thème commun, les ateliers en rotation, les validations P. <button class="cbtn" onclick="print()">🖨 Imprimer le cycle</button></p>` +
+   SEANCES.map(s => `<section class="card seance"><h3>${s.id} · ${esc(s.titre)}</h3><p class="obj">${esc(s.obj)}</p>
+    <div class="tl">${s.tl.map(t => `<span><b>${t[1]}′</b> ${esc(t[0])}</span>`).join("")}</div>
+    <p class="small"><b>Installation.</b> ${esc(s.install)}</p>${s.fiches.map(ficheHTML).join("")}
+    <p class="small"><b>Bilan.</b> ${esc(s.bilan)}</p></section>`).join("")],
+ ateliers:["Ateliers et niveaux", () => `<h2>Les 6 ateliers, niveaux A à F</h2><p class="muted">Les mêmes que l'appli élève et la fiche CA3. ⚠️ : niveau ouvert seulement avec le professeur (code du cours sur les téléphones).</p><div class="grid">` +
+   ATELIERS.map(a => `<section class="card" style="border-top:6px solid ${a.coul}"><h3>${a.n}. ${esc(a.nom)}</h3><table class="niv">${a.niv.map(n => `<tr><td>${PICTOS.has(a.n+n[0])?`<img src="img/pictos/a${a.n}${n[0]}.png" alt="">`:""}</td><td><b class="L L${n[0]}">${n[0]}</b></td><td>${esc(n[1])}${n[2] ? " ⚠️" : ""}</td></tr>`).join("")}</table></section>`).join("") + `</div>
+   <p class="aide">Les critères de réussite, les vidéos et le matériel de chaque niveau sont dans l'appli élève, onglet Apprendre.</p>`],
+ installation:["Installation", () => `<h2>Installation et rotation</h2><div class="card">${svgPlan()}</div>
+   <h3>Chaque groupe installe et range SON atelier, toujours le même</h3><div class="grid">${ATELIERS.map(a => `<section class="card"><h3>${a.n}. ${esc(a.court)}</h3>${ul(a.mat)}</section>`).join("")}</div>
+   <h3>Rotation des 6 groupes (environ 6 min par atelier, 1 min pour tourner)</h3>
+   <div class="card"><table class="rot"><tr><th>Atelier</th>${[1,2,3,4,5,6].map(r => `<th>Tour ${r}</th>`).join("")}</tr>${ATELIERS.map(a => `<tr><th>${a.n}. ${esc(a.court)}</th>${[0,1,2,3,4,5].map(r => `<td>G${((a.n - 1 - r + 6) % 6) + 1}</td>`).join("")}</tr>`).join("")}</table>
+   <p class="small muted">Le signal de changement et le minuteur : outil prof › Classe › Rotation des ateliers.</p></div>`],
+ echauff:["Échauffements", () => `<h2>Un échauffement différent à chaque séance</h2><div class="grid">${SEANCES.map(s => {const f = s.fiches.find(x => x.cat === "Échauffement");return `<section class="card"><h3>${s.id} · ${esc(f.titre)}</h3><ol class="small">${f.deroul.map(x => `<li>${esc(x)}</li>`).join("")}</ol></section>`}).join("")}</div>
+   <h3>La banque, pour l'échauffement autonome (S8) ou pour varier</h3><div class="card">${BANQUE_ECH.map(b => `<p class="small"><b>${esc(b[0])}.</b> ${esc(b[1])}</p>`).join("")}</div>`],
+ securite:["Règles", () => `<h2>Règles de sécurité</h2><div class="card">${ul(SECU.regles)}</div><h3>Les zones clés</h3><div class="card"><p>${esc(SECU.zones)}</p></div>
+   <h3>Les deux postures</h3><div class="grid">${SECU.postures.map(p => `<section class="card"><h3>${esc(p[0])}</h3><p>${esc(p[1])}</p></section>`).join("")}</div><p class="aide"><b>${esc(SECU.devise)}</b></p>`],
+ parade:["Parade et aide", () => `<h2>Parer et aider</h2><div class="grid">${PARADE.defs.map(d => `<section class="card"><h3>${esc(d[0])}</h3><p>${esc(d[1])}</p></section>`).join("")}</div>
+   <h3>Les 3 questions du pareur</h3><div class="card">${ul(PARADE.questions)}</div><h3>Le bon pareur</h3><div class="card">${ul(PARADE.crit)}</div>
+   <h3>Élément par élément</h3><div class="card">${PARADE.cas.map(c => `<p><b>${esc(c[0])}.</b> ${esc(c[1])}</p>`).join("")}</div>`],
+ validation:["Validation E et P", () => `<h2>Valider un niveau</h2><div class="card">${ul(VALID.regles)}</div><div class="card"><p>${esc(VALID.qui)}</p><p>${esc(VALID.appli)}</p></div>
+   <div class="card"><p><b>${esc(VALID.note)}</b></p></div><p class="aide"><a href="https://yannickdartois-hue.github.io/gym-prof/" target="_blank" rel="noopener">Ouvrir l'outil prof</a> · <a href="https://yannickdartois-hue.github.io/gym-eleves/" target="_blank" rel="noopener">Ouvrir l'appli élève</a></p>`],
+ sources:["Sources", () => `<h2>Repères et sources</h2><div class="card">${SOURCES.map(s => `<p><b>${esc(s[0])}.</b> ${esc(s[1])}</p>`).join("")}</div>`]
+};
+function aller(id){
+  if(!T[id]) id = "seances";
+  $("#nav").innerHTML = Object.entries(T).map(([k, v]) => `<button type="button" class="${k === id ? "on" : ""}" data-t="${k}">${v[0]}</button>`).join("");
+  $("#main").innerHTML = T[id][1]();
+  history.replaceState(null, "", "#tab-" + id);
+}
+document.addEventListener("click", e => {const b = e.target.closest("[data-t]");if(b){aller(b.dataset.t);scrollTo(0, 0)}});
+aller((location.hash.match(/^#tab-(\w+)/) || [])[1]);
+if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+</script>
+<script src="eps-maj.js"></script>
+</body>
+</html>
