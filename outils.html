@@ -80,7 +80,7 @@ try{if(window.self!==window.top)document.documentElement.classList.add('outil')}
 </head>
 <body>
 <header class="top"><div class="toprow"><h1><img class="appicon" src="icon-192.png" alt="" width="40" height="40">Cycle gymnastique · CA3 · Première</h1><a class="cbtn" href="./">‹ Écran de cours</a></div>
-<p>6 ateliers, niveaux A à F (comme l'appli élève) · 8 séances de 110 min · 6 groupes · validation E par un camarade, P par le professeur</p></header>
+<p>Comme l'appli : échauffement commun, focus sur un atelier, 3 tours d'ateliers · 2 cours = les 6 ateliers · 8 séances de 110 min · 6 groupes</p></header>
 <nav id="nav" aria-label="Onglets"></nav>
 <main id="main"></main>
 <script src="gym-donnees.js"></script>
@@ -98,7 +98,7 @@ function ficheHTML(f){
    ${f.schema && f.schema !== "plan" && f.schema !== "vagues" ? schema(f.schema) : ""}</article>`;
 }
 const T = {
- seances:["Séances", () => `<h2>Les 8 séances</h2><p class="muted noprint">Chaque séance : un échauffement différent, un thème commun, les ateliers en rotation, les validations P. <button class="cbtn" onclick="print()">🖨 Imprimer le cycle</button></p>` +
+ seances:["Séances", () => `<h2>Les 8 séances</h2><p class="muted noprint">Chaque séance : un échauffement commun différent, un focus de 10 min sur un atelier, 3 tours d'ateliers de 20 min, les validations P. <button class="cbtn" onclick="print()">🖨 Imprimer le cycle</button></p>` +
    SEANCES.map(s => `<section class="card seance"><h3>${s.id} · ${esc(s.titre)}</h3><p class="obj">${esc(s.obj)}</p>
     <div class="tl">${s.tl.map(t => `<span><b>${t[1]}′</b> ${esc(t[0])}</span>`).join("")}</div>
     <p class="small"><b>Installation.</b> ${esc(s.install)}</p>${s.fiches.map(ficheHTML).join("")}
@@ -108,9 +108,9 @@ const T = {
    <p class="aide">Les critères de réussite, les vidéos et le matériel de chaque niveau sont dans l'appli élève, onglet Apprendre.</p>`],
  installation:["Installation", () => `<h2>Installation et rotation</h2><div class="card">${svgPlan()}</div>
    <h3>Chaque groupe installe et range SON atelier, toujours le même</h3><div class="grid">${ATELIERS.map(a => `<section class="card"><h3>${a.n}. ${esc(a.court)}</h3>${ul(a.mat)}</section>`).join("")}</div>
-   <h3>Rotation des 6 groupes (environ 6 min par atelier, 1 min pour tourner)</h3>
-   <div class="card"><table class="rot"><tr><th>Atelier</th>${[1,2,3,4,5,6].map(r => `<th>Tour ${r}</th>`).join("")}</tr>${ATELIERS.map(a => `<tr><th>${a.n}. ${esc(a.court)}</th>${[0,1,2,3,4,5].map(r => `<td>G${((a.n - 1 - r + 6) % 6) + 1}</td>`).join("")}</tr>`).join("")}</table>
-   <p class="small muted">Le signal de changement et le minuteur : outil prof › Classe › Rotation des ateliers.</p></div>`],
+   <h3>Rotation : 3 tours de 20 min par cours, 2 cours pour faire les 6 ateliers</h3>
+   ${["A","B"].map((k, idx) => `<div class="card"><h3>Cours ${k} (${idx ? "S2, S4, S6, S8" : "S1, S3, S5, S7"})</h3><table class="rot"><tr><th>Groupe</th><th>Tour 1</th><th>Tour 2</th><th>Tour 3</th></tr>${[1,2,3,4,5,6].map(g => `<tr><th>G${g}</th>${[0,1,2].map(t => {const a = atelierById(atelierDe(g, idx, t));return `<td>${a.n}. ${esc(a.court)}</td>`}).join("")}</tr>`).join("")}</table></div>`).join("")}
+   <p class="small muted">Outil prof › Classe › Rotation des ateliers : 20 min par atelier, 3 tours, « Cours A » ou « Cours B ». Les tablettes qui scannent le QR de rotation affichent l'atelier de leur groupe.</p></div>`],
  echauff:["Échauffements", () => `<h2>Un échauffement différent à chaque séance</h2><div class="grid">${SEANCES.map(s => {const f = s.fiches.find(x => x.cat === "Échauffement");return `<section class="card"><h3>${s.id} · ${esc(f.titre)}</h3><ol class="small">${f.deroul.map(x => `<li>${esc(x)}</li>`).join("")}</ol></section>`}).join("")}</div>
    <h3>La banque, pour l'échauffement autonome (S8) ou pour varier</h3><div class="card">${BANQUE_ECH.map(b => `<p class="small"><b>${esc(b[0])}.</b> ${esc(b[1])}</p>`).join("")}</div>`],
  securite:["Règles", () => `<h2>Règles de sécurité</h2><div class="card">${ul(SECU.regles)}</div><h3>Les zones clés</h3><div class="card"><p>${esc(SECU.zones)}</p></div>

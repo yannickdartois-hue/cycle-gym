@@ -1,6 +1,6 @@
 /* Cycle gymnastique : l'écran de cours et l'outil sont mis en cache à la 1re ouverture (Wi-Fi), puis fonctionnent sans réseau.
    Après une modification : augmenter le numéro de C (construire.py le fait pour l'écran de cours). */
-const C='cycle-gym-v2';
+const C='cycle-gym-v3';
 // Toutes les applis partagent le même stockage (même adresse github.io) : on n'efface QUE les anciennes versions de CETTE appli.
 const MES_CACHES=/^(?:cycle\-gym\-v)\d+$/;
 
