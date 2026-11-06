@@ -26,7 +26,7 @@ const ATELIERS = [
   mat:["Table de saut à deux hauteurs","Tapis de fosse + tapis à hauteur de la table","Tapis mou sur la table, mini-trampoline"]},
  {n:6, nom:"Trampoline", court:"Trampoline", coul:"#1d4ed8",
   niv:[["A","Saut chandelle ou saut demi-tour"],["B","Saut groupé, carpé ou carpé écart"],["C","Saut tombé assis"],["D","Tomber dos"],["E","Pull-over avant ou salto avant",1],["F","Pull-over arrière ou salto arrière",1]],
-  mat:["Trampoline, grand tapis de protection","Le groupe aide à installer l'atelier ATR"]}
+  mat:["2 trampolines (le groupe se partage les deux), grands tapis de protection","Le groupe aide à installer l'atelier ATR"]}
 ];
 const atelierById = n => ATELIERS.find(a => a.n === +n);
 /* pictos disponibles (images de l'appli élève) : certains niveaux n'en ont pas */
@@ -90,6 +90,48 @@ const EXOS = {
  franchir:{cat:"Préparation technique",nom:"Franchir le plinth, fesses hautes",txt:"Mains sur le plinth, impulsion deux pieds : passer par-dessus en montant les fesses plus haut que la tête."},
  demitour:{cat:"Préparation technique",nom:"Saut ½ tour",txt:"Fléchir, bras devant ; saut extension bras au-dessus de la tête, ½ tour en l'air, réception fléchie, bras devant."}
 };
+/* Illustrations « prof » (planches de Yannick, img/echauff/av-*.jpg) */
+Object.assign(EXOS, {
+ avChevilles:{cat:"Activation",nom:"Rotations des chevilles et des poignets",img:"av-chevilles-poignets",txt:"Debout, pointe du pied au sol : cercles de cheville dans un sens puis l'autre ; doigts croisés, cercles de poignets. 10 de chaque."},
+ avPasChasses:{cat:"Activation",nom:"Pas chassés",img:"av-pas-chasses",txt:"Pas chassés latéraux, bras qui balancent, puis pas croisés ; changer de sens au signal."},
+ avTalons:{cat:"Activation",nom:"Talons-fesses",img:"av-talons-fesses",txt:"Petites foulées, les talons viennent toucher les fesses, buste droit."},
+ avPiste:{cat:"Activation",nom:"Footing autour du praticable",img:"av-piste",txt:"Footing en file autour du praticable, sans le traverser ; au signal, changer de sens."},
+ avSautsChevilles:{cat:"Activation",nom:"Sauts de chevilles",img:"av-sauts-chevilles",txt:"Petits sauts pieds joints, enchaînés, sur la pointe des pieds, genoux presque tendus."},
+ avClochePied:{cat:"Activation",nom:"Cloche-pied",img:"av-cloche-pied",txt:"Sauts à cloche-pied, 10 sur chaque pied, en avançant puis sur place."},
+ avFentes:{cat:"Souplesse",nom:"Fentes avant et latérales",img:"av-fentes",txt:"Grande fente avant, genou au-dessus du pied, puis fente latérale ; 5 de chaque côté, sans à-coup."},
+ avChatVache:{cat:"Souplesse",nom:"Chat et vache",img:"av-chat-vache",txt:"À 4 pattes : arrondir le dos en rentrant le menton (chat), puis creuser doucement en regardant devant (vache). 8 fois, en respirant."},
+ avHanches:{cat:"Souplesse",nom:"Cercles de hanches",img:"av-hanches",txt:"Mains sur les hanches, pieds écartés : grands cercles du bassin, 8 dans chaque sens."},
+ avEcart:{cat:"Souplesse",nom:"Écart préparatoire",img:"av-ecart",txt:"Assis jambes écartées, dos droit, mains vers les pieds : on se penche sans forcer, après l'activation, jamais à froid."},
+ avTriceps:{cat:"Souplesse",nom:"Épaules et triceps",img:"av-triceps",txt:"Une main dans le dos par-dessus l'épaule, l'autre pousse doucement le coude ; 15 s de chaque côté."},
+ avTwist:{cat:"Souplesse",nom:"Torsion du dos, assis",img:"av-twist",txt:"Assis, une jambe pliée croisée par-dessus l'autre : tourner le buste vers le genou plié, 15 s de chaque côté."},
+ avSquat:{cat:"Renforcement",nom:"Squats légers",img:"av-squat",txt:"Pieds largeur du bassin, descendre à 90°, genoux au-dessus des pieds, remonter ; 10 fois."},
+ avEquilibre:{cat:"Préparation technique",nom:"Équilibre sur une jambe",img:"av-equilibre",txt:"Sur un pied, bras à l'horizontale, l'autre genou fléchi : tenir 10 s, puis yeux fermés. Changer de pied."},
+ avCulbuto:{cat:"Préparation technique",nom:"Culbuto",img:"av-f-culbuto",txt:"Groupé, mains sur les tibias, dos rond : rouler en arrière et revenir accroupi, sans lâcher les jambes."},
+ avOurs:{cat:"Préparation technique",nom:"L'ours",img:"av-f-ours",txt:"À 4 pattes, genoux décollés, dos parallèle au sol : avancer main et pied opposés."},
+ avOursFixes:{cat:"Préparation technique",nom:"Ours, puis ours bras fixes",img:"av-ours-bras-fixes",txt:"Dans l'ours bras fixes, les deux bras repoussent le sol ensemble : c'est la poussée du saut de mains."},
+ avCrabe:{cat:"Préparation technique",nom:"Le crabe",img:"av-f-crabe",txt:"En planche faciale, se déplacer sur le côté, mains et pieds ensemble, sans casser l'alignement."},
+ avAlligator:{cat:"Préparation technique",nom:"L'alligator",img:"av-f-alligator",txt:"Grande fente basse, main et pied opposés avancent ensemble, poitrine près du sol."},
+ avPhasme:{cat:"Préparation technique",nom:"Le phasme",img:"av-f-phasme",txt:"Bras tendus au-dessus de la tête, corps gainé : petits sauts d'une cheville à l'autre."},
+ avPoignets4:{cat:"Préparation technique",nom:"Appui des poignets à 4 pattes",img:"av-f-poignets",txt:"À 4 pattes, mains devant, puis doigts vers les genoux : avancer et reculer le poids du corps au-dessus des mains."},
+ avGainageCulbuto:{cat:"Renforcement",nom:"Gainage et culbuto",img:"av-gainage-culbuto",txt:"Sur le tapis : la boule, le bâton, puis culbuto ; 3 × 10 s."},
+ avMarcheMains:{cat:"Préparation technique",nom:"Marcher sur les mains, pieds tenus",img:"av-marche-mains",txt:"Placement du dos, un camarade tient les chevilles : avancer sur les mains, épaules au-dessus des mains."},
+ avAtrPare:{cat:"Préparation technique",nom:"ATR avec pareur",img:"av-atr-pare",txt:"Contre les tapis, un pareur de profil tient la jambe qui monte : ATR tenu 3 s, puis rebond sur les mains."},
+ avRoueLigne:{cat:"Préparation technique",nom:"Roue sur une ligne",img:"av-roue-ligne",txt:"Roue sur une ligne au sol : main, main, pied, pied sur la ligne, arriver face à la ligne."},
+ avGrenouille:{cat:"Préparation technique",nom:"Saut de grenouille vers l'extension",img:"av-grenouille",txt:"Flexion à 45°, saut de grenouille, puis saut extension complet bras au-dessus de la tête."},
+ avPhasmeBras:{cat:"Préparation technique",nom:"Phasme, petits rebonds",img:"av-phasme",txt:"Bras tendus en haut, corps gainé, petits rebonds de chevilles sur place."},
+ avReception:{cat:"Préparation technique",nom:"Réception plantée",img:"av-reception",txt:"Saut extension, réception pieds joints, genoux fléchis, bras devant : tenir 2 s sans bouger."},
+ avCourseElan:{cat:"Préparation technique",nom:"Course d'élan et appel",img:"av-course-elan",txt:"3 pas, pré-appel (petit saut), appel deux pieds sur la ligne, saut extension."},
+ avSauteMouton:{cat:"Préparation technique",nom:"Saute-mouton",img:"av-saute-mouton",txt:"Par deux : on pousse sur les mains, on ne s'assoit pas sur le dos ; puis par-dessus un cube."},
+ avStation1:{cat:"Renforcement",nom:"Station 1 : pompes",img:"av-station1",txt:"Pompes sur les genoux ou sur les pieds, dos plat, 40 s."},
+ avStation2:{cat:"Renforcement",nom:"Station 2 : bassin sur les coudes",img:"av-station2",txt:"Sur les coudes, jambes serrées : monter et descendre le bassin sans toucher le sol, puis planche 10 s."},
+ avStation3:{cat:"Renforcement",nom:"Station 3 : sur le ventre",img:"av-station3",txt:"Battements de jambes, relevés de buste, puis planche 10 s."},
+ avChaise:{cat:"Renforcement",nom:"Station 4 : la chaise",img:"av-chaise",txt:"Dos contre le mur, cuisses à l'horizontale, bras tendus aux oreilles, 40 s."},
+ avHollow:{cat:"Renforcement",nom:"Station 5 : le bâton sur le dos",img:"av-hollow",txt:"Épaules et pieds décollés, bas du dos collé au tapis : 3 × 10 s."},
+ avGrandirCube:{cat:"Renforcement",nom:"Station 6 : se grandir",img:"av-grandir-cube",txt:"Placement du dos, pieds sur un cube : se grandir 3 fois en enfonçant le sol."},
+ avBattements:{cat:"Renforcement",nom:"Battements et relevés de buste",img:"av-battements",txt:"Sur le ventre, battements de jambes tendues, puis relevés de buste lents."},
+ avPoignetsEpaules:{cat:"Activation",nom:"Poignets et épaules",img:"av-poignets-epaules",txt:"Cercles de poignets, puis grands cercles de bras, dans un sens puis dans l'autre."}
+});
+
 /* 4 échauffements complets de rechange, à prendre à la place de celui du jour */
 const VARIANTES = [
  {titre:"En musique (type LIA)", src:"EvoluGym", exos:["lia","relais","table","gcourbe","glateral","grandir","enroul","psoas"], note:"Musique 110 à 130 BPM. 5 min d'activation au rythme, 5 min de renforcement, 5 min de souplesse."},
@@ -98,8 +140,16 @@ const VARIANTES = [
  {titre:"Préparation aux roulades", src:"EvoluGym", exos:["relais","groupe","rouler","rarbras","roul2","jambeh","adduc"], note:"À placer avant le focus roulade arrière (S3) ou salto (S5)."}
 ];
 /* Échauffement de chaque séance : les exercices illustrés à montrer */
-const ECH_EXOS = {S1:["groupe","aligne","chien","grandir"],S2:["quadru","lapin","planche","chien"],S3:["groupe","ventre","roul2","rouler"],S4:["quadru","planche","lapin","jambeh"],
- S5:["impuls","demitour","franchir","extension"],S6:["table","gcourbe","glateral","fermeture","aligne"],S7:["enroul","psoas","grenouille","grandir"],S8:["equerre","adduc","ischios","rarbras"]};
+const ECH_EXOS = {
+ S1:["avPiste","avChevilles","avPoignets4","avFentes","avHanches","groupe","aligne","avCulbuto"],
+ S2:["avPasChasses","avOurs","avCrabe","avAlligator","lapin","avPhasme","avCulbuto","avPoignets4"],
+ S3:["avTalons","groupe","avGainageCulbuto","avCulbuto","roul2","rouler"],
+ S4:["avPasChasses","avOurs","avOursFixes","avGainageCulbuto","avMarcheMains","avAtrPare","avRoueLigne"],
+ S5:["avTalons","avSautsChevilles","avClochePied","avGrenouille","avPhasmeBras","avReception","avCourseElan","avSauteMouton"],
+ S6:["avPiste","avStation1","avStation2","avStation3","avChaise","avHollow","avGrandirCube","avPoignetsEpaules"],
+ S7:["avChevilles","avPoignets4","avTriceps","avChatVache","avHanches","avEcart","avSquat","avGainageCulbuto"],
+ S8:["avPasChasses","avChevilles","avChatVache","avTwist","avEquilibre","avSquat","avGainageCulbuto","avFentes"]
+};
 /* Photos des fiches Access Gym (FFG) pour les focus et l'onglet Ateliers */
 const PHOTOS = {
  "roue-rondade":"Roue puis rondade au sol","rondade-plan":"Rondade depuis un plan incliné",
@@ -345,7 +395,7 @@ const FOCUS = {
   crit:"Passage à l'ATR jambes écartées, la 2e jambe rejoint vite ; réception debout.", reussite:"Chaque élève sait où se placent les 2 pareurs.", moins:"ATR tombé plat dos sur tapis mou.", plus:"Sursaut et saut de mains au trampoline avec les pareurs.", schema:"pictos:3C,3D,3E,3F"}
 };
 const INFOS = [
- ["S1","Sécurité, postures et premier tour d'ateliers","Connaître les règles, les 2 postures et le rôle de pareur ; prendre en main l'appli ; faire 3 premiers ateliers.","Former 6 groupes de 5 ou 6 qui restent les mêmes tout le cycle ; chaque groupe installe et range toujours le même atelier (G1 l'atelier 1, G2 l'atelier 2…). Montrer le QR de la classe : chaque groupe crée son groupe dans l'appli. Tenue : cheveux attachés, sans bijou, sans chewing-gum.","Dans quel atelier as-tu le plus de marge ? Quel niveau vises-tu ?"],
+ ["S1","Sécurité, postures et premier tour d'ateliers","Connaître les règles, les 2 postures et le rôle de pareur ; prendre en main l'appli ; faire 3 premiers ateliers.","Former 6 groupes de 6 qui restent les mêmes tout le cycle ; chaque groupe installe et range toujours le même atelier (G1 l'atelier 1, G2 l'atelier 2…). Montrer le QR de la classe : chaque groupe crée son groupe dans l'appli. Tenue : cheveux attachés, sans bijou, sans chewing-gum.","Dans quel atelier as-tu le plus de marge ? Quel niveau vises-tu ?"],
  ["S2","ATR, et fin du premier tour complet","Monter à l'ATR aligné avec des pareurs ; faire les 3 ateliers qui manquent pour avoir vu les 6.","Chaque groupe installe son atelier. Les groupes commencent par l'atelier où ils n'étaient pas en S1.","Tu as vu les 6 ateliers : lequel sera ton point fort ?"],
  ["S3","Roulade arrière, 2e tour (1re moitié)","Tourner en arrière dans l'axe ; progresser d'un niveau sur 3 ateliers.","Chaque groupe installe son atelier ; 3 plans inclinés en plus sur le praticable pour le focus.","Ta roulade arrière tourne-t-elle dans l'axe ? Où étaient tes mains ?"],
  ["S4","De la roue à la rondade, 2e tour (2e moitié)","Aligner ses appuis dans la roue et découvrir la rondade ; progresser d'un niveau sur les 3 autres ateliers.","Chaque groupe installe son atelier ; 5 lignes au sol sur le praticable pour le focus.","Qu'est-ce qui change entre la roue et la rondade ?"],
@@ -401,11 +451,11 @@ const SOURCES = [
 /* ---------- Schémas ---------- */
 const escG = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function svgPlan(){
-  // la salle : le praticable au centre, les 6 ateliers autour
-  const pos = [[30,30],[30,150],[30,270],[530,30],[530,150],[530,270]];
-  const A = ATELIERS.map((a,i) => {const [x,y]=pos[i];return `<g><rect x="${x}" y="${y}" width="140" height="100" rx="12" fill="${a.coul}" fill-opacity=".14" stroke="${a.coul}" stroke-width="3"/><text x="${x+18}" y="${y+40}" style="font:800 30px Archivo,Arial;fill:${a.coul}">${a.n}</text><text x="${x+12}" y="${y+72}" style="font:700 15px Atkinson,Arial;fill:#1c2128">${escG(a.court)}</text></g>`}).join("");
-  const fl = `<path d="M175 80 H515 M515 200 H175 M175 320 H515" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 6" fill="none"/>`;
-  return `<svg viewBox="0 0 700 400" role="img" aria-label="Plan de la salle : 6 ateliers autour du praticable"><rect width="700" height="400" rx="16" fill="#eef1f0"/><rect x="200" y="40" width="290" height="320" rx="10" fill="#fff" stroke="#c9d0d3" stroke-width="2"/><text x="345" y="205" text-anchor="middle" style="font:700 18px Atkinson,Arial;fill:#5b6470">Praticable</text>${A}<text x="345" y="388" text-anchor="middle" style="font:700 14px Atkinson,Arial;fill:#5b6470">3 tours par cours, au signal : 2 cours pour faire les 6 ateliers</text></svg>`;
+  // Plan d'après « Organisation des ateliers » (Word) ; les numéros sont ceux de l'appli élève.
+  const Z = [[60,20,320,52,2,"Salto arrière"],[390,20,130,128,6,"Trampoline 2"],[65,88,308,96,4,"Roue et rondade"],[65,184,122,210,3,"ATR"],[187,184,90,210,2,"Roulade arrière"],[277,184,96,210,1,"Roulade avant"],
+             [68,412,150,150,6,"Trampoline"],[228,412,148,150,1,"Salto avant"],[392,165,126,395,5,"Table de saut"]];
+  const B = Z.map(([x,y,w,h,n,t]) => {const a = atelierById(n);return `<g><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="${a.coul}" fill-opacity=".13" stroke="${a.coul}" stroke-width="2.5"/><circle cx="${x+18}" cy="${y+18}" r="13" fill="${a.coul}"/><text x="${x+18}" y="${y+23}" text-anchor="middle" style="font:800 15px Archivo,Arial;fill:#fff">${n}</text>${(w<130?t.split(" "):[t]).map((m,k,a)=>`<text x="${x+w/2}" y="${y+h/2+6+(k-(a.length-1)/2)*18}" text-anchor="middle" style="font:700 14px Atkinson,Arial;fill:#1c2128">${escG(m)}</text>`).join("")}</g>`}).join("");
+  return `<svg viewBox="0 0 540 610" role="img" aria-label="Plan de la salle de gymnastique et des 6 ateliers"><rect width="540" height="610" rx="16" fill="#eef1f0"/><rect x="62" y="85" width="314" height="312" rx="6" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 5"/><text x="219" y="408" text-anchor="middle" style="font:700 12px Atkinson,Arial;fill:#5b6470">praticable</text>${B}<text x="270" y="582" text-anchor="middle" style="font:700 13px Atkinson,Arial;fill:#5b6470">Échauffement en vagues : du mur vers les tables de saut</text><text x="270" y="598" text-anchor="middle" style="font:700 12px Atkinson,Arial;fill:#5b6470">3 tours par cours · 2 cours pour faire les 6 ateliers</text></svg>`;
 }
 function svgVagues(){
   let r = "";
