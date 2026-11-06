@@ -55,6 +55,15 @@ table.niv img{height:56px;width:56px;object-fit:contain;background:#fff;border-r
 .pictos img{max-width:100%;height:100px;object-fit:contain}
 .pictos figcaption{font-size:14px;color:#1c2128}
 svg{max-width:100%;height:auto;display:block}
+/* Exercices illustrés (EvoluGym) et photos des fiches Access Gym (FFG) */
+.exos{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.exo{margin:0;background:#fff;border:1px solid #dde2e8;border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:6px;color:#1c2128}
+.exo img{width:100%;height:130px;object-fit:contain;background:#fff}
+.exo figcaption{font-size:max(14px,var(--fs-min,15px));line-height:1.35}.exo figcaption b{display:block;font-size:max(16px,var(--fs-min,15px))}
+.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px;margin-bottom:10px}
+.photos figure{margin:0;background:#fff;border:1px solid #dde2e8;border-radius:12px;overflow:hidden}
+.photos img{width:100%;display:block}.photos figcaption{padding:6px 10px;font-size:max(14px,var(--fs-min,15px));color:#1c2128}
+@media print{.exo img{height:90px}}
 table.rot{border-collapse:collapse;font-size:17px}table.rot td,table.rot th{border:1px solid var(--line);padding:6px 10px;text-align:center}
 .aide{background:var(--accent-soft);border-radius:12px;padding:10px 12px}
 @media (max-width:700px){.var{grid-template-columns:1fr}h2{font-size:24px}}
@@ -104,16 +113,18 @@ const T = {
     <p class="small"><b>Installation.</b> ${esc(s.install)}</p>${s.fiches.map(ficheHTML).join("")}
     <p class="small"><b>Bilan.</b> ${esc(s.bilan)}</p></section>`).join("")],
  ateliers:["Ateliers et niveaux", () => `<h2>Les 6 ateliers, niveaux A à F</h2><p class="muted">Les mêmes que l'appli élève et la fiche CA3. ⚠️ : niveau ouvert seulement avec le professeur (code du cours sur les téléphones).</p><div class="grid">` +
-   ATELIERS.map(a => `<section class="card" style="border-top:6px solid ${a.coul}"><h3>${a.n}. ${esc(a.nom)}</h3><table class="niv">${a.niv.map(n => `<tr><td>${PICTOS.has(a.n+n[0])?`<img src="img/pictos/a${a.n}${n[0]}.png" alt="">`:""}</td><td><b class="L L${n[0]}">${n[0]}</b></td><td>${esc(n[1])}${n[2] ? " ⚠️" : ""}</td></tr>`).join("")}</table></section>`).join("") + `</div>
+   ATELIERS.map(a => `<section class="card" style="border-top:6px solid ${a.coul}"><h3>${a.n}. ${esc(a.nom)}</h3>${PHOTOS_AT[a.n] ? photosHTML(PHOTOS_AT[a.n].join(",")) : ""}<table class="niv">${a.niv.map(n => `<tr><td>${PICTOS.has(a.n+n[0])?`<img src="img/pictos/a${a.n}${n[0]}.png" alt="">`:""}</td><td><b class="L L${n[0]}">${n[0]}</b></td><td>${esc(n[1])}${n[2] ? " ⚠️" : ""}</td></tr>`).join("")}</table></section>`).join("") + `</div>
    <p class="aide">Les critères de réussite, les vidéos et le matériel de chaque niveau sont dans l'appli élève, onglet Apprendre.</p>`],
  installation:["Installation", () => `<h2>Installation et rotation</h2><div class="card">${svgPlan()}</div>
    <h3>Chaque groupe installe et range SON atelier, toujours le même</h3><div class="grid">${ATELIERS.map(a => `<section class="card"><h3>${a.n}. ${esc(a.court)}</h3>${ul(a.mat)}</section>`).join("")}</div>
    <h3>Rotation : 3 tours de 20 min par cours, 2 cours pour faire les 6 ateliers</h3>
    ${["A","B"].map((k, idx) => `<div class="card"><h3>Cours ${k} (${idx ? "S2, S4, S6, S8" : "S1, S3, S5, S7"})</h3><table class="rot"><tr><th>Groupe</th><th>Tour 1</th><th>Tour 2</th><th>Tour 3</th></tr>${[1,2,3,4,5,6].map(g => `<tr><th>G${g}</th>${[0,1,2].map(t => {const a = atelierById(atelierDe(g, idx, t));return `<td>${a.n}. ${esc(a.court)}</td>`}).join("")}</tr>`).join("")}</table></div>`).join("")}
    <p class="small muted">Outil prof › Classe › Rotation des ateliers : 20 min par atelier, 3 tours, « Cours A » ou « Cours B ». Les tablettes qui scannent le QR de rotation affichent l'atelier de leur groupe.</p></div>`],
- echauff:["Échauffements", () => `<h2>Un échauffement différent à chaque séance</h2><div class="grid">${SEANCES.map(s => {const f = s.fiches.find(x => x.cat === "Échauffement");return `<section class="card"><h3>${s.id} · ${esc(f.titre)}</h3><ol class="small">${f.deroul.map(x => `<li>${esc(x)}</li>`).join("")}</ol></section>`}).join("")}</div>
-   <h3>La banque, pour l'échauffement autonome (S8) ou pour varier</h3><div class="card">${BANQUE_ECH.map(b => `<p class="small"><b>${esc(b[0])}.</b> ${esc(b[1])}</p>`).join("")}</div>`],
- securite:["Règles", () => `<h2>Règles de sécurité</h2><div class="card">${ul(SECU.regles)}</div><h3>Les zones clés</h3><div class="card"><p>${esc(SECU.zones)}</p></div>
+ echauff:["Échauffements", () => `<h2>Un échauffement commun différent à chaque séance</h2><div class="grid">${SEANCES.map(s => {const f = s.fiches.find(x => x.cat === "Échauffement");return `<section class="card"><h3>${s.id} · ${esc(f.titre)}</h3><ol class="small">${f.deroul.map(x => `<li>${esc(x)}</li>`).join("")}</ol></section>`}).join("")}</div>
+   <h3>4 échauffements de rechange, à prendre à la place de celui du jour</h3>${VARIANTES.map(v => `<section class="card"><h3>${esc(v.titre)} <span class="muted small">· ${esc(v.src)}</span></h3><p class="small">${esc(v.note)}</p>${exosHTML(v.exos.join(","))}</section>`).join("")}
+   <h3>La banque illustrée</h3>${[...new Set(Object.values(EXOS).map(e => e.cat))].map(c => `<section class="card"><h3>${esc(c)}</h3>${exosHTML(Object.keys(EXOS).filter(k => EXOS[k].cat === c).join(","))}</section>`).join("")}
+   <h3>Autres repères</h3><div class="card">${BANQUE_ECH.map(b => `<p class="small"><b>${esc(b[0])}.</b> ${esc(b[1])}</p>`).join("")}</div>`],
+ securite:["Règles", () => `<h2>Règles de sécurité</h2><div class="card">${ul(SECU.regles)}</div><h3>Les 8 règles des ateliers</h3><div class="card"><ol>${REGLES8.map(r => `<li>${esc(r)}</li>`).join("")}</ol></div><h3>Les zones clés</h3><div class="card"><p>${esc(SECU.zones)}</p></div>
    <h3>Les deux postures</h3><div class="grid">${SECU.postures.map(p => `<section class="card"><h3>${esc(p[0])}</h3><p>${esc(p[1])}</p></section>`).join("")}</div><p class="aide"><b>${esc(SECU.devise)}</b></p>`],
  parade:["Parade et aide", () => `<h2>Parer et aider</h2><div class="grid">${PARADE.defs.map(d => `<section class="card"><h3>${esc(d[0])}</h3><p>${esc(d[1])}</p></section>`).join("")}</div>
    <h3>Les 3 questions du pareur</h3><div class="card">${ul(PARADE.questions)}</div><h3>Le bon pareur</h3><div class="card">${ul(PARADE.crit)}</div>

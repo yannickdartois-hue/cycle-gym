@@ -52,6 +52,74 @@ const VALID = {
  appli:"Les validations se font dans l'appli élève Gymnastique (QR de la classe au 1er cours, code du cours pour les niveaux ⚠️) et remontent dans l'outil prof."
 };
 
+/* ================== BANQUE ILLUSTRÉE D'EXERCICES D'ÉCHAUFFEMENT ==================
+   Images : FFG, EvoluGym « Fiches échauffement » (img/echauff). Consignes : EvoluGym, fiches élèves CP3 (C. Peyrotte, 2015), Fiche 207. */
+const EXOS = {
+ // Activation
+ lia:{cat:"Activation",nom:"Step touch en musique (type LIA)",txt:"Pas latéral aller-retour, arrêt pieds serrés jambes tendues, cercles de bras en arrière, puis double pas latéral bras à l'horizontale. Musique 110 à 130 BPM, on compte « 1-2-3-4 (aller) 5-6-7-8 (retour) »."},
+ relais:{cat:"Activation",nom:"Navettes et relais",txt:"Courses avant, arrière, talons-fesses, pas chassés, organisées en navettes ou en relais par groupe : 2 à 5 min."},
+ impuls:{cat:"Activation",nom:"Rebonds jambes tendues jusqu'au saut extension",img:"impuls",txt:"Pieds serrés, mains aux hanches, petits rebonds sur les chevilles, corps droit, ventre et fesses serrés ; puis grand saut extension bras au-dessus de la tête."},
+ // Renforcement
+ table:{cat:"Renforcement",nom:"La table",img:"table",txt:"Assis, mains derrière, pieds écartés : monter le bassin pour faire une table. Serrer les fesses, creuser le ventre. Tenir 5 à 10 s, 2 fois."},
+ extension:{cat:"Renforcement",nom:"Extension des jambes, assis",img:"extension",txt:"Assis jambes tendues, serrées puis écartées : écraser l'arrière des genoux au sol, les gros orteils regardent le sol. 3 contractions de 3 s, puis lever une jambe, puis l'autre."},
+ gcourbe:{cat:"Renforcement",nom:"Gainage courbe avant",img:"gcourbe",txt:"Du 4 pattes dos rond, avancer les mains pour poser les coudes. Puis sur les pieds : aligner jambes, tronc, tête. Tenir 5 à 10 s."},
+ glateral:{cat:"Renforcement",nom:"Gainage latéral",img:"glateral",txt:"Allongé sur le côté, appui sur un coude : soulever le bassin, genoux fléchis puis jambes tendues. Tenir 5 à 10 s de chaque côté."},
+ ventre:{cat:"Renforcement",nom:"Ventre creux",img:"ventre",txt:"Sur le dos, jambes fléchies, pieds au sol : sur l'expiration, coller le bas du dos au sol. Puis décoller la tête et les épaules. Tenir 5 à 10 s."},
+ fermeture:{cat:"Renforcement",nom:"Fermeture jambes-tronc",img:"fermeture",txt:"Sur le dos, cuisses à la verticale, ventre creux : pousser les mains vers l'avant pendant que les cuisses reviennent vers la poitrine, sans bouger. Tenir 5 à 10 s."},
+ aligne:{cat:"Renforcement",nom:"« Le plus grand du monde »",img:"aligne",txt:"À plat ventre, bras tendus devant : s'aligner, être « tout dur ». Le nombril ne touche pas le sol, les talons se touchent. Puis décoller les bras tendus."},
+ equerre:{cat:"Renforcement",nom:"Vers l'équerre",img:"equerre",txt:"Assis jambes tendues, mains à plat à côté du bassin : serrer les cuisses et décoller le bassin, jambes serrées puis écartées."},
+ adduc:{cat:"Renforcement",nom:"Adducteurs à deux",img:"adduc",txt:"Par deux : l'un, sur le dos, jambes fléchies, essaie d'écarter les genoux, l'autre l'en empêche ; puis l'inverse ; puis on change de rôle."},
+ // Souplesse
+ grandir:{cat:"Souplesse",nom:"Auto-grandissement et inclinaison",img:"grandir",txt:"Debout, bras verticaux : se grandir, puis passer sur un pied, l'autre pointé, et s'incliner sur le côté en expirant. 2 fois de chaque côté."},
+ enroul:{cat:"Souplesse",nom:"Enroulement vertébral",img:"enroul",txt:"Debout, jambes à demi fléchies : descendre vertèbre par vertèbre jusqu'à l'accroupi, talons au sol, puis remonter en déroulant. 2 fois."},
+ psoas:{cat:"Souplesse",nom:"Fente avant, genou au sol",img:"psoas",txt:"Grande fente, genou arrière au sol, bassin dans l'axe : expirer, rentrer le ventre, basculer le bassin. 2 × 16 temps de chaque côté."},
+ ischios:{cat:"Souplesse",nom:"Arrière des cuisses",img:"ischios",txt:"Sur le dos, une jambe fléchie au sol, l'autre tendue vers le plafond, pied flex. 2 × 8 temps de chaque côté."},
+ grenouille:{cat:"Souplesse",nom:"La grenouille",img:"grenouille",txt:"Sur le dos, cuisses à la verticale : sur l'expiration, ouvrir les genoux sur les côtés, perpendiculaires au tronc. Tenir 2 × 8 temps."},
+ chien:{cat:"Souplesse",nom:"4 pattes, dos vers le plafond",img:"chien",txt:"Pieds sur un bloc, mains au sol : pousser le dos vers le plafond, creuser le ventre en expirant. Tenir 3 à 5 s, 2 fois."},
+ // Préparation technique
+ quadru:{cat:"Préparation technique",nom:"Quadrupédies variées",img:"quadru",txt:"À 4 pattes en avant, en arrière, sur le côté, avec ½ tour et tour complet. L'éléphant : jambes et bras tendus. L'araignée : pousse tes fesses vers le haut. Le canard : baisse-toi le plus bas possible."},
+ planche:{cat:"Préparation technique",nom:"Des mains à la planche, des pieds à la fermeture",img:"planche",txt:"Debout, mains au sol : les mains avancent jusqu'à la planche, on tient 5 s aligné et gainé, puis les pieds avancent jusqu'aux mains."},
+ lapin:{cat:"Préparation technique",nom:"Saut de lapin jusqu'au placement du dos",img:"lapin",txt:"Mains loin devant, bras tendus qui « bouchent les oreilles », puis les pieds ; de plus en plus lent, jusqu'à tenir le placement du dos, genoux et pieds serrés."},
+ jambeh:{cat:"Préparation technique",nom:"Jambe tendue à l'horizontale",img:"jambeh",txt:"À 4 pattes, tendre une jambe en arrière et la monter jusqu'à l'horizontale, 3 à 4 battements puis tenir 3 s. Droite puis gauche."},
+ groupe:{cat:"Préparation technique",nom:"Groupé au signal",img:"groupe",txt:"En marchant, au signal : assis, genoux serrés, pointes tirées, mains sur les tibias. Puis rouler en arrière et revenir dans la même position."},
+ rouler:{cat:"Préparation technique",nom:"Rouler en arrière, mains à plat",img:"rouler",txt:"Départ assis groupé : rouler en arrière en posant les paumes à plat près des oreilles, revenir talons près des fesses et se relever."},
+ rarbras:{cat:"Préparation technique",nom:"Rouler en arrière bras tendus",img:"rarbras",txt:"Assis, bras tendus, mains jointes au-dessus de la tête : rouler en arrière en appuyant les petits doigts au sol, revenir accroupi, puis debout."},
+ roul2:{cat:"Préparation technique",nom:"Roulade arrière et retour, à deux",img:"roul2",txt:"Face à face, mains tenues : A roule en arrière mains à plat et revient en roulade avant à la station, B l'aide en tirant les mains. Jambes fléchies, talons près des fesses."},
+ brouette:{cat:"Préparation technique",nom:"La brouette",txt:"Par deux, prise aux genoux ou aux cuisses : avancer et reculer sur les mains, tête dans le prolongement du tronc, ventre creux. Finir en roulade avant."},
+ chandelle:{cat:"Préparation technique",nom:"Chandelle, puis pieds au mur",txt:"Chandelle alignée, « aligne-toi » ; puis, dos contre le mur, venir toucher le mur avec les pieds. Puis placement du dos avec une jambe au mur."},
+ franchir:{cat:"Préparation technique",nom:"Franchir le plinth, fesses hautes",txt:"Mains sur le plinth, impulsion deux pieds : passer par-dessus en montant les fesses plus haut que la tête."},
+ demitour:{cat:"Préparation technique",nom:"Saut ½ tour",txt:"Fléchir, bras devant ; saut extension bras au-dessus de la tête, ½ tour en l'air, réception fléchie, bras devant."}
+};
+/* 4 échauffements complets de rechange, à prendre à la place de celui du jour */
+const VARIANTES = [
+ {titre:"En musique (type LIA)", src:"EvoluGym", exos:["lia","relais","table","gcourbe","glateral","grandir","enroul","psoas"], note:"Musique 110 à 130 BPM. 5 min d'activation au rythme, 5 min de renforcement, 5 min de souplesse."},
+ {titre:"Les animaux du gymnaste", src:"Fiches élèves CP3", exos:["relais","quadru","lapin","planche","chandelle","demitour","franchir"], note:"Une consigne par animal, dite à voix haute : l'éléphant jambes et bras tendus, le lapin bras qui bouchent les oreilles, le lièvre mains plus loin et fesses hautes, l'araignée fesses vers le haut, le canard le plus bas possible."},
+ {titre:"Gainage et souplesse", src:"EvoluGym", exos:["relais","table","extension","ventre","fermeture","aligne","equerre","grenouille","ischios"], note:"Chaque posture tenue 5 à 10 s, 2 fois, en expirant. Utile avant les ateliers de renversement."},
+ {titre:"Préparation aux roulades", src:"EvoluGym", exos:["relais","groupe","rouler","rarbras","roul2","jambeh","adduc"], note:"À placer avant le focus roulade arrière (S3) ou salto (S5)."}
+];
+/* Échauffement de chaque séance : les exercices illustrés à montrer */
+const ECH_EXOS = {S1:["groupe","aligne","chien","grandir"],S2:["quadru","lapin","planche","chien"],S3:["groupe","ventre","roul2","rouler"],S4:["quadru","planche","lapin","jambeh"],
+ S5:["impuls","demitour","franchir","extension"],S6:["table","gcourbe","glateral","fermeture","aligne"],S7:["enroul","psoas","grenouille","grandir"],S8:["equerre","adduc","ischios","rarbras"]};
+/* Photos des fiches Access Gym (FFG) pour les focus et l'onglet Ateliers */
+const PHOTOS = {
+ "roue-rondade":"Roue puis rondade au sol","rondade-plan":"Rondade depuis un plan incliné",
+ "atr-bloc":"Vers l'ATR et le saut de mains","sdm-plan":"Saut de mains, arrivée plat dos",
+ "salto-av-plinth":"Salto avant depuis un plinth et un tremplin","salto-av-tremplin":"Salto avant au tremplin",
+ "lune-atr":"ATR tombé plat dos depuis le mini-trampoline","lune-tremplin":"Saut lune, de la course à la table","lune-table":"Saut lune avec mini-trampoline"
+};
+const PHOTOS_AT = {1:["salto-av-plinth","salto-av-tremplin"],3:["atr-bloc","sdm-plan"],4:["roue-rondade","rondade-plan"],5:["lune-atr","lune-tremplin","lune-table"]};
+/* Les 8 règles des ateliers (d'après B. Di Crescenzo, 2020), adaptées à l'appli */
+const REGLES8 = ["J'installe le matériel comme le professeur l'a dit.","Je ne commence pas les ateliers sans m'être échauffé et sans le feu vert.","J'attends que l'atelier soit entièrement libre pour commencer.","Je libère l'atelier dès que j'ai fini.","Je reste sur l'atelier de mon groupe pour ce tour.","Je lis la fiche de mon niveau dans l'appli avant de me lancer.","J'aide un camarade et je valide E s'il a réussi.","Je fais valider E par un camarade avant de demander le P au professeur."];
+
+function exosHTML(liste){
+  return `<div class="exos">${liste.split(",").map(k => {const e = EXOS[k];if(!e) return "";
+    return `<figure class="exo">${e.img ? `<img src="img/echauff/${e.img}.jpg" alt="" loading="lazy">` : ""}<figcaption><b>${escG(e.nom)}</b><span>${escG(e.txt)}</span></figcaption></figure>`}).join("")}</div>`;
+}
+function photosHTML(liste){
+  return `<div class="photos">${liste.split(",").map(k => PHOTOS[k] ? `<figure><img src="img/ateliers/${k}.jpg" alt="" loading="lazy"><figcaption>${escG(PHOTOS[k])}</figcaption></figure>` : "").join("")}</div>`;
+}
+
+
 /* ---------- Logique de l'appli : échauffement commun, focus sur un atelier, puis 3 tours d'ateliers ---------- */
 /* 6 groupes, 6 ateliers, 3 tours par cours : il faut 2 cours pour un tour complet des 6 ateliers.
    Cours « A » (S1, S3, S5, S7) : le groupe G fait les ateliers G, G+1, G+2. Cours « B » (S2, S4, S6, S8) : G+3, G+4, G+5. */
@@ -287,6 +355,9 @@ const INFOS = [
  ["S8","Saut de mains, dernier tour et bilan","Connaître la parade du saut de mains ; faire ses dernières validations P ; faire le bilan du cycle.","Chaque groupe installe son atelier ; liste des élèves sans validation P préparée dans l'outil prof.","Sur quel atelier as-tu le plus progressé depuis S1 ? Qu'est-ce qui t'a aidé ?"]
 ];
 const CONSIGNE_TOUR = {S1:"Aujourd'hui : niveaux A et B seulement, pas de niveau ⚠️.",S2:"Aujourd'hui : on vise le niveau suivant celui validé en S1.",S7:"Validé E : on vient en P tout de suite, sans attendre la fin.",S8:"20 min avant la fin : plus de nouveau niveau, on termine les validations en cours."};
+const FOCUS_PHOTOS = {S2:"atr-bloc",S4:"roue-rondade,rondade-plan",S5:"salto-av-plinth,salto-av-tremplin",S6:"lune-atr,lune-tremplin",S8:"atr-bloc,sdm-plan"};
+for(const k in FOCUS){if(FOCUS_PHOTOS[k]) FOCUS[k].schema = "photos:" + FOCUS_PHOTOS[k] + "+" + FOCUS[k].schema}
+for(const k in ECH){ECH[k].schema = "exos:" + ECH_EXOS[k].join(",")}
 const SEANCES = INFOS.map(([id, titre, obj, install, bilan], idx) => ({id, titre, obj, tl:TL_STD, install, bilan,
  prepare:[`${Math.floor(idx / 2) + 1}${idx < 2 ? "er" : "e"} tour complet des 6 ateliers, ${idx % 2 ? "2e moitié : les 3 ateliers que le groupe n'a pas faits la séance précédente (cours B)" : "1re moitié : 3 ateliers par groupe, les 3 autres à la séance suivante (cours A)"}.`, "Le focus du jour : " + FOCUS[id].titre.replace(/^Focus /, "") + ".", "Les validations E (camarade) et P (professeur) dans l'appli."],
  fiches:[ECH[id], FOCUS[id], TOUR(idx, 0, CONSIGNE_TOUR[id]), TOUR(idx, 1, CONSIGNE_TOUR[id]), TOUR(idx, 2, CONSIGNE_TOUR[id]),
@@ -310,6 +381,10 @@ const BANQUE_ECH = [
 ];
 
 const SOURCES = [
+ ["FFG, EvoluGym « Fiches échauffement »","Les exercices illustrés de la banque et les 3 échauffements de rechange en musique, gainage-souplesse et roulades."],
+ ["FFG, Access Gym « La gym comme j'aime »","Les photos de la rondade, du saut de mains, du salto avant et du saut lune."],
+ ["C. Peyrotte, fiches élèves échauffement CP3 (2015)","Les consignes des animaux (éléphant, lapin, lièvre, araignée, canard), la chandelle, le franchissement du plinth."],
+ ["B. Di Crescenzo, consignes de sécurité et d'organisation (2020)","Les 8 règles des ateliers."],
  ["Appli élève Gymnastique","Les 6 ateliers, les niveaux A à F, les critères, les vidéos et le matériel de chaque fiche (gym-eleves)."],
  ["Fiche CA3 Gymnastique (version trampoline)","La fiche papier de co-évaluation : colonnes E et P."],
  ["Séances et fiches de travail de l'équipe","Cycle gymnastique, séances 4 et 5, ATR, roue et rondade, roulades, table de saut, trampoline, organisation des ateliers."],
@@ -321,6 +396,7 @@ const SOURCES = [
  ["M. et M. Rejwerski, Gestion du couple risque-sécurité","Manipulation, aide, parade ; quand, où, comment intervenir (S6)."],
  ["Matériel par atelier, organisation et rotation 2024-2025","L'installation et la rotation des 6 groupes."]
 ];
+
 
 /* ---------- Schémas ---------- */
 const escG = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -345,5 +421,8 @@ function schema(spec){
   if(spec === "plan") return svgPlan();
   if(spec === "vagues") return svgVagues();
   if(spec.startsWith("pictos:")) return pictosHTML(spec.slice(7));
+  if(spec.startsWith("exos:")) return exosHTML(spec.slice(5));
+  if(spec.startsWith("photos:")) return photosHTML(spec.slice(7));
+  if(spec.includes("+")) return spec.split("+").map(schema).join("");
   return "";
 }
