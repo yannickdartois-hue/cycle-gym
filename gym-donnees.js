@@ -26,7 +26,7 @@ const ATELIERS = [
   mat:["Table de saut à deux hauteurs","Tapis de fosse + tapis à hauteur de la table","Tapis mou sur la table, mini-trampoline"]},
  {n:6, nom:"Trampoline", court:"Trampoline", coul:"#1d4ed8",
   niv:[["A","Saut chandelle ou saut demi-tour"],["B","Saut groupé, carpé ou carpé écart"],["C","Saut tombé assis"],["D","Tomber dos"],["E","Pull-over avant ou salto avant",1],["F","Pull-over arrière ou salto arrière",1]],
-  mat:["2 trampolines (le groupe se partage les deux), grands tapis de protection","Le groupe aide à installer l'atelier ATR"]}
+  mat:["Trampoline, grands tapis de protection","Le groupe aide à installer l'atelier ATR"]}
 ];
 const atelierById = n => ATELIERS.find(a => a.n === +n);
 /* pictos disponibles (images de l'appli élève) : certains niveaux n'en ont pas */
@@ -47,7 +47,7 @@ const PARADE = {
 };
 const VALID = {
  regles:["L'élément est réussi du premier coup.","Les 2 critères de réussite sont respectés.","La réception est maîtrisée (pas de pas, pas de chute)."],
- qui:"E : un camarade observe et coche dans l'appli (co-évaluation). P : seul le professeur valide le niveau, avec le QR « Montrer au professeur » du téléphone de l'élève.",
+ qui:"E : un camarade observe et coche dans l'appli (co-évaluation). P : seul le professeur valide le niveau, avec le QR « Montrer au professeur » du téléphone de l'élève, et seulement à partir de la séance 3 (S1 et S2 : validations E entre camarades uniquement).",
  note:"Note du cycle : 16 points sur la validation des niveaux, 4 points sur la participation (engagement, rôles d'aide et de pareur, respect des règles).",
  appli:"Les validations se font dans l'appli élève Gymnastique (QR de la classe au 1er cours, code du cours pour les niveaux ⚠️) et remontent dans l'outil prof."
 };
@@ -185,10 +185,11 @@ const TOUR = (idx, tour, consigne) => ({titre:`Tour ${tour + 1} · chaque groupe
  moins:"Rester au niveau en cours avec un aménagement de la fiche (plan incliné, tapis plus haut, pareur).",
  plus:"Niveau validé E : le refaire 3 fois de suite avant de demander la validation P.",
  schema:"plan"});
-const FIN = (question, plus) => ({titre:"Validations P, envoi, rangement", duree:15, cat:"Fin de séance",
- dispo:"Les élèves qui ont une validation E à faire passer en P viennent au professeur avec leur téléphone, les autres rangent. Chaque groupe range SON atelier, toujours le même.",
- roles:"Le professeur scanne les QR « Montrer au professeur ». Un élève par groupe envoie la fiche du groupe (QR ou fichier dans le Nuage).",
- deroul:["5 min : validations P au poste du professeur (scan du QR, puis l'élève scanne la réponse ou l'aura avec le QR de la classe).","5 min : chaque groupe range son atelier, tapis empilés par taille.","2 min : un élève par groupe envoie la fiche du groupe (onglet Envoyer de l'appli).","3 min : bilan en cercle : " + question].concat(plus || []),
+const SANS_P = "Pas de validation P aujourd'hui : le professeur ne valide les P qu'à partir de la séance 3. Vos validations E restent acquises.";
+const FIN = (question, plus, sansP) => ({titre:sansP ? "Envoi et rangement" : "Validations P, envoi, rangement", duree:15, cat:"Fin de séance",
+ dispo:sansP ? SANS_P + " Chaque groupe range SON atelier, toujours le même." : "Les élèves qui ont une validation E à faire passer en P viennent au professeur avec leur téléphone, les autres rangent. Chaque groupe range SON atelier, toujours le même.",
+ roles:sansP ? "Le professeur circule et vérifie les rangements. Un élève par groupe envoie la fiche du groupe (QR ou fichier dans le Nuage)." : "Le professeur scanne les QR « Montrer au professeur ». Un élève par groupe envoie la fiche du groupe (QR ou fichier dans le Nuage).",
+ deroul:[sansP ? "5 min : le professeur rappelle la règle : pas de P en S1 et S2, il commence à valider les P à la séance 3. Les élèves qui ont des E les refont 3 fois de suite pour être prêts." : "5 min : validations P au poste du professeur (scan du QR, puis l'élève scanne la réponse ou l'aura avec le QR de la classe).","5 min : chaque groupe range son atelier, tapis empilés par taille.","2 min : un élève par groupe envoie la fiche du groupe (onglet Envoyer de l'appli).","3 min : bilan en cercle : " + question].concat(plus || []),
  crit:"Rangement complet avant de partir ; aucune fiche non envoyée.",
  reussite:"Tous les groupes ont envoyé leur fiche et l'atelier est rangé.",
  schema:""});
@@ -404,14 +405,15 @@ const INFOS = [
  ["S7","Trampoline, 4e tour (1re moitié)","Contrôler ses sauts au trampoline ; faire valider en P ce qui est validé en E.","Chaque groupe installe son atelier ; trampoline entouré, 4 élèves aux côtés de la toile.","Combien de niveaux as-tu validés en P ? Lequel te reste-t-il ?"],
  ["S8","Saut de mains, dernier tour et bilan","Connaître la parade du saut de mains ; faire ses dernières validations P ; faire le bilan du cycle.","Chaque groupe installe son atelier ; liste des élèves sans validation P préparée dans l'outil prof.","Sur quel atelier as-tu le plus progressé depuis S1 ? Qu'est-ce qui t'a aidé ?"]
 ];
-const CONSIGNE_TOUR = {S1:"Aujourd'hui : niveaux A et B seulement, pas de niveau ⚠️.",S2:"Aujourd'hui : on vise le niveau suivant celui validé en S1.",S7:"Validé E : on vient en P tout de suite, sans attendre la fin.",S8:"20 min avant la fin : plus de nouveau niveau, on termine les validations en cours."};
+const CONSIGNE_TOUR = {S1:"Aujourd'hui : niveaux A et B seulement, pas de niveau ⚠️. Validations E entre camarades uniquement : le professeur valide les P à partir de la séance 3.",S2:"Aujourd'hui : on vise le niveau suivant celui validé en S1. Toujours pas de P : le professeur commence à valider les P à la séance 3.",S3:"Le professeur commence les validations P : un niveau validé E et réussi 3 fois de suite, on vient le montrer.",S7:"Validé E : on vient en P tout de suite, sans attendre la fin.",S8:"20 min avant la fin : plus de nouveau niveau, on termine les validations en cours."};
 const FOCUS_PHOTOS = {S2:"atr-bloc",S4:"roue-rondade,rondade-plan",S5:"salto-av-plinth,salto-av-tremplin",S6:"lune-atr,lune-tremplin",S8:"atr-bloc,sdm-plan"};
 for(const k in FOCUS){if(FOCUS_PHOTOS[k]) FOCUS[k].schema = "photos:" + FOCUS_PHOTOS[k] + "+" + FOCUS[k].schema}
 for(const k in ECH){ECH[k].schema = "exos:" + ECH_EXOS[k].join(",")}
-const SEANCES = INFOS.map(([id, titre, obj, install, bilan], idx) => ({id, titre, obj, tl:TL_STD, install, bilan,
+const TL_SANS_P = TL_STD.map(b => b[2] === "bil" ? ["Envoi, rangement", b[1], b[2]] : b);
+const SEANCES = INFOS.map(([id, titre, obj, install, bilan], idx) => ({id, titre, obj, tl:idx < 2 ? TL_SANS_P : TL_STD, install, bilan,
  prepare:[`${Math.floor(idx / 2) + 1}${idx < 2 ? "er" : "e"} tour complet des 6 ateliers, ${idx % 2 ? "2e moitié : les 3 ateliers que le groupe n'a pas faits la séance précédente (cours B)" : "1re moitié : 3 ateliers par groupe, les 3 autres à la séance suivante (cours A)"}.`, "Le focus du jour : " + FOCUS[id].titre.replace(/^Focus /, "") + ".", "Les validations E (camarade) et P (professeur) dans l'appli."],
  fiches:[ECH[id], FOCUS[id], TOUR(idx, 0, CONSIGNE_TOUR[id]), TOUR(idx, 1, CONSIGNE_TOUR[id]), TOUR(idx, 2, CONSIGNE_TOUR[id]),
-   FIN(bilan, id === "S8" ? ["Le professeur annonce comment est calculée la note : 16 points de validation, 4 de participation."] : null)]}));
+   FIN(bilan, id === "S8" ? ["Le professeur annonce comment est calculée la note : 16 points de validation, 4 de participation."] : null, idx < 2)]}));
 
 /* ---------- Banque d'échauffements (catalogue pour l'outil et l'échauffement autonome) ---------- */
 const ECHAUFF = SEANCES.map(s => ({id:s.id, titre:s.fiches.find(f => f.cat === "Échauffement").titre, theme:s.titre}));
@@ -452,7 +454,7 @@ const SOURCES = [
 const escG = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function svgPlan(){
   // Plan d'après « Organisation des ateliers » (Word) ; les numéros sont ceux de l'appli élève.
-  const Z = [[60,20,320,52,2,"Salto arrière"],[390,20,130,128,6,"Trampoline 2"],[65,88,308,96,4,"Roue et rondade"],[65,184,122,210,3,"ATR"],[187,184,90,210,2,"Roulade arrière"],[277,184,96,210,1,"Roulade avant"],
+  const Z = [[60,20,320,52,2,"Salto arrière"],[390,20,130,128,2,"Salto arrière"],[65,88,308,96,4,"Roue et rondade"],[65,184,122,210,3,"ATR"],[187,184,90,210,2,"Roulade arrière"],[277,184,96,210,1,"Roulade avant"],
              [68,412,150,150,6,"Trampoline"],[228,412,148,150,1,"Salto avant"],[392,165,126,395,5,""]];
   const B = Z.map(([x,y,w,h,n,t]) => {const a = atelierById(n);return `<g><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="${a.coul}" fill-opacity=".13" stroke="${a.coul}" stroke-width="2.5"/><circle cx="${x+18}" cy="${y+18}" r="13" fill="${a.coul}"/><text x="${x+18}" y="${y+23}" text-anchor="middle" style="font:800 15px Archivo,Arial;fill:#fff">${n}</text>${(w<130?t.split(" "):[t]).map((m,k,a)=>`<text x="${x+w/2}" y="${y+h/2+6+(k-(a.length-1)/2)*18}" text-anchor="middle" style="font:700 14px Atkinson,Arial;fill:#1c2128">${escG(m)}</text>`).join("")}</g>`}).join("");
   const tables = [235,505].map(y => `<text x="455" y="${y}" text-anchor="middle" style="font:700 14px Atkinson,Arial;fill:#1c2128">Table de saut</text>`).join("");
